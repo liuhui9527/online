@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    $(function () {
+        $("#id").val();
+    })
+    function xiugai() {
+        $.ajax({
+            url: '/user/update',
+            data: {id: $("#id").val(), username: $("#username").val(), password: $("#password").val()},
+            type: 'post',
+            dataType: 'json',
+            success:function (data) {
+
+            }
+        })
+    }
+</script>
+<body>
+<div>
+    ID：<input type="text" id="id">
+</div>
+<div>
+    用户名：<input type="text" id="username">
+</div>
+<div>
+    密码：<input type="password" id="password">
+</div>
+<div>
+    <input type="button" value="提交" onclick="xiugai()">
+</div>
+</body>
+</html>

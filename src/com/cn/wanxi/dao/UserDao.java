@@ -8,5 +8,6 @@ public interface UserDao {
     UserEntity getById(Integer id);
     int add(UserEntity userEntity);
     int update(UserEntity userEntity);
-    int delete(UserEntity userEntity);
+    int delete(Integer id);
+
 }

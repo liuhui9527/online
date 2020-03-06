@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户修改</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<script>
+    $(function () {
+        let id = localStorage.getItem("id");
+        $("#id").val(id);
+        findById(id);
+    })
+
+    function findById(id) {
+        $.ajax({
+            url: '/user/findById',
+            data: {id: id},
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                $("#username").val(data[0].data.username);
+                $("#password").val(data[0].data.password);
+            }
+        })
+    }
+
+    function xiugai() {
+        $.ajax({
+            url: '/user/update',
+            data: {id: $("#id").val(), username: $("#username").val(), password: $("#password").val()},
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+            }
+        })
+    }
+</script>
+<body>
+<div>
+    ID：<input type="text" id="id" readonly>
+</div>
+<div>
+    用户名：<input type="text" id="username">
+</div>
+<div>
+    密码：<input type="password" id="password">
+</div>
+<div>
+    <input type="button" value="提交" onclick="xiugai()">
+</div>
+</body>
+</html>
