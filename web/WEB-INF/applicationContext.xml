@@ -6,6 +6,30 @@
     <!-- 扫描web相关的bean -->
     <context:component-scan base-package="com.cn.wanxi"/>
 
+    <mvc:resources location="/" mapping="/**/*.js"/>
+    <mvc:resources location="/" mapping="/**/*.css"/>
+    <mvc:resources location="/" mapping="/**/*.html"/>
+    <mvc:resources location="/" mapping="/**/*.eot"/>
+    <mvc:resources location="/" mapping="/**/*.svg"/>
+    <mvc:resources location="/" mapping="/**/*.ttf"/>
+    <mvc:resources location="/" mapping="/**/*.woff"/>
+    <mvc:resources location="/" mapping="/**/*.woff2"/>
+
+<!--
+    <mvc:default-servlet-handler/>
+-->
+    <mvc:resources mapping="/fonts/**" location="/fonts/" cache-period="31556926"/>
+    <mvc:resources mapping="/js/**" location="/js/" cache-period="31556926"/>
+    <mvc:resources mapping="/css/**" location="/css/" cache-period="31556926"/>
     <!-- 开启SpringMVC注解模式 -->
     <mvc:annotation-driven/>
+    <!-- 配置jsp 显示ViewResolver -->
+    <!-- 静态资源默认servlet配置 -->
+    <mvc:default-servlet-handler/>
+    <mvc:resources mapping="/mapper/**" location="/mapper/" />
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/jsp/"/>
+        <property name="suffix" value=".html"/>
+    </bean>
 </beans>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>题库随机抽取</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script src="/js/testpaper.js"></script>
+    <link rel="stylesheet" href="/css/testpaper.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<script>
+    /*function title_num_cha(obj) {
+        /!**
+         * 选择题总数：choose_number
+         * 选择题随机抽数量：choose_rander_num
+         * 选择题手动抽取数量：title_SD
+         * *!/
+        /!*获取指定id的值*!/
+        var choose_number = document.getElementById("choose_number");
+        var choose_rander_num = document.getElementById("choose_rander_num");
+        var title_SD = document.getElementById("title_SD");
+        /!*将值转换成number类型*!/
+        let choose_number.value = parseInt(choose_number.value);
+        let choose_rander_num.value = parseInt(choose_rander_num.value);
+        let title_SD.value = parseInt(title_SD.value);
+        /!*对数值进行计算
+        * 1、首先要判断总数量和随机抽取的input框中不能为空
+        * 2、如果随机抽取为空，就制0
+        * 3、将选择题数量减去随机抽取的数量的值复制给手动设置的inpu文本框
+        * *!/
+
+        if (choose_number.value == '') {
+            choose_number.value = 0;
+        } else if (choose_rander_num.value == '') {
+            choose_rander_num.value = 0;
+        }
+        title_SD.value = choose_number.value - choose_rander_num.value;
+
+    }*/
+
+    function addtestpaper() {
+        console.log("进入add");
+        console.log($("#test_name").val());
+        console.log($("#subject").val());
+        console.log($("#sum_gader").val());
+        console.log($("#sum_title_num").val());
+        console.log($("#test_start_time").val());
+        console.log($("#test_time").val());
+        console.log($("#choose_number").val());
+        console.log($("#choose_gader").val());
+        console.log($("#completion_gader").val());
+        console.log($("#grade").val());
+        console.log($("#completion_rander_num").val());
+        console.log($("#choose_rander_num").val());
+        console.log($("#choose_title_sd").val());
+        console.log($("#completion_num").val());
+        console.log($("#completion_title2_sd").val());
+        console.log($("#recognized_num").val());
+        console.log($("#recognized_gader").val());
+        console.log($("#recongnized_rander_num").val());
+        console.log($("#recongnized_title3_sd").val());
+
+
+        jQuery.ajax({
+            url: '/wanxi/testpaper',
+            data: {
+                test_name: $("#test_name").val(),
+                subject: $("#subject").val(),
+                sum_gader: $("#sum_gader").val(),
+                sum_title_num: $("#sum_title_num").val,
+                test_start_time: $("#test_start_time").val(),
+                test_time: $("#test_time").val(),
+                choose_number: $("#choose_number").val(),
+                choose_gader: $("#choose_gader").val(),
+                completion_gader: $("#completion_gader").val(),
+                grade: $("#grade").val(),
+                completion_rander_num: $("#completion_rander_num").val(),
+                choose_rander_num: $("#choose_rander_num").val(),
+                choose_title_sd: $("#choose_title_sd").val(),
+                completion_num: $("#completion_num").val(),
+                completion_title_sd: $("#completion_title2_sd").val(),
+                recognized_num: $("#recognized_num").val(),
+                recognized_gader: $("#recognized_gader").val(),
+                recognized_rander_num: $("#recongnized_rander_num").val(),
+                recongnized_title_sd: $("#recongnized_title3_sd").val()
+            },
+            type: 'get',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                console.log("进入 success");
+                console.log(data);
+                alert("增加成功")
+            }
+
+        });
+
+    }
+</script>
+<body class="container back">
+<div style="width:100px;margin: 0 auto;">
+    <button type="button" class="btn btn-primary title">试卷管理</button>
+</div>
+<div>
+    <ul class="nav nav-pills">
+        <li role="presentation"><a href="#">首页</a></li>
+        <li role="presentation" class="active"><a href="#">题库随机抽取</a></li>
+        <li role="presentation"><a href="testpaper2.html">老师手动出题</a></li>
+        <li role="presentation"><a href="teacherfindAll.html">查询试题</a></li>
+    </ul>
+</div>
+<div><br><br><br></div>
+<div class="test_id">
+    <div class="form-group row col-md-4">
+        <label for="test_name">本次考试ID：</label>
+        <input type="text" id="test_name" placeholder="期末考试">
+    </div>
+
+    <div class="form-group row col-md-4">
+        <label for="test_name">本次考试时间：</label>
+        <input type="text" id="test_start_time" placeholder="2020-3-6 9:30:00">
+    </div>
+
+    <div class="form-group row col-md-4">
+        <label for="test_name">答题时间：</label>
+        <input type="text" id="test_time" placeholder="150">
+    </div>
+    <!--</form>-->
+</div>
+<div><br><br><br><br></div>
+<!--<form class="form-inline form1style">-->
+<!--
+        <form class="form-inline form1style">
+-->
+<div>
+    <div class="form-group font_J row col-md-2">
+        <label for="subject">科目:</label>
+        <select id="subject">
+            <option>数学</option>
+            <option>语文</option>
+            <option>英语</option>
+            <option>历史</option>
+            <option>化学</option>
+        </select>
+    </div>
+    <div class="form-group font_J row col-md-2">
+        <label for="grade">年级:</label>
+        <select id="grade">
+            <option>2017</option>
+            <option>2018</option>
+            <option>2019</option>
+            <option>2020</option>
+        </select>
+    </div>
+    <div class="form-group font_J row col-md-4">
+        <label for="sum_gader">总分:</label>
+        <input type="text" id="sum_gader" placeholder="100">
+    </div>
+    <div class="form-group font_J row col-md-4">
+        <label for="sum_title_num">题目数量:</label>
+        <input type="text"  id="sum_title_num" placeholder="100">
+    </div>
+</div>
+<br><br>
+<!--</form>-->
+<div class="form2style">
+    <!--
+        <form class="form-inline">
+    -->
+    <div class="form-group row col-md-3">
+        <label for="choose_number">选择题数量：</label>
+        <input type="text" id="choose_number" placeholder="15">
+    </div>
+    <div class="form-group row col-md-3">
+        <label for="choose_gader">选择题总分：</label>
+        <input type="text" id="choose_gader" placeholder="35">
+    </div>
+    <div class="form-group row col-md-2">
+        <label for="choose_rander_num">随机抽取数量：</label>
+        <input type="text" id="choose_rander_num" placeholder="15">
+    </div>
+    <div class="form-group row col-md-2" style="margin-left: 50px">
+        <label for="choose_title_sd">手动设置数量：</label>
+        <input type="text" id="choose_title_sd" placeholder="0">
+    </div>
+    <div class="form-group row col-md-2" style="margin-top: 25px;margin-left: 50px">
+        <!--            <input class="btn btn-default" type="button" value="" href="testpaper2.html">-->
+        <a class="btn btn-default" href="html/testpaper2.html" role="button">手动设置</a>
+    </div>
+    <!--  </form>-->
+</div>
+<br><br><br><br><br>
+<div class="form2style">
+    <!--
+        <form class="form-inline">
+    -->
+    <div class="form-group row col-md-3">
+        <label for="completion_num">判断题数量：</label>
+        <input type="text" id="completion_num" placeholder="15">
+    </div>
+    <div class="form-group row col-md-3">
+        <label for="completion_gader">判断题总分：</label>
+        <input type="text" id="completion_gader" placeholder="35">
+    </div>
+    <div class="form-group row col-md-2">
+        <label for="completion_rander_num">随机抽取数量：</label>
+        <input type="text" id="completion_rander_num" placeholder="10">
+    </div>
+    <div class="form-group row col-md-2" style="margin-left: 50px">
+        <label for="completion_title2_sd">手动设置数量：</label>
+        <input type="text" id="completion_title2_sd" placeholder="0">
+    </div>
+    <div class="form-group row col-md-2" style="margin-top: 25px;margin-left: 50px">
+        <!--            <input class="btn btn-default" type="button" value="" href="testpaper2.html">-->
+        <a class="btn btn-default" href="html/testpaper2.html" role="button">手动设置</a>
+    </div>
+    <!--
+        </form>
+    -->
+</div>
+<br><br><br><br><br>
+<div class="form2style">
+    <!--
+        <form class="form-inline">
+    -->
+
+    <div class="form-group row col-md-3">
+        <label for="recognized_num">判断题数量：</label>
+        <input type="text" id="recognized_num" placeholder="15">
+    </div>
+    <div class="form-group row col-md-3">
+        <label for="recognized_gader">判断题总分：</label>
+        <input type="text" id="recognized_gader" placeholder="35">
+    </div>
+    <div class="form-group row col-md-2">
+        <label for="recongnized_rander_num">随机抽取数量：</label>
+        <input type="text" id="recongnized_rander_num" placeholder="10">
+    </div>
+    <div class="form-group row col-md-2" style="margin-left: 50px">
+        <label for="recongnized_title3_sd">手动设置数量：</label>
+        <input type="text" id="recongnized_title3_sd" placeholder>
+    </div>
+    <div class="form-group row col-md-2" style="margin-top: 25px;margin-left: 50px">
+        <!--            <input class="btn btn-default" type="button" value="" href="testpaper2.html">-->
+        <a class="btn btn-default" href="html/testpaper2.html" role="button">手动设置</a>
+    </div>
+    <!--
+        </form>
+    -->
+</div>
+<br><br><br><br><br>
+
+
+<div class="submit_style1 submit_style2"><input class="btn btn-default" type="submit" value="设置" onclick="addtestpaper()"></div>
+</body>
+</html>

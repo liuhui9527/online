@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cn.wanxi.dao.TestPaperDao">
+    <!--TeacherAppointTitleDao-->
+    <select id="findAll" resultType="com.cn.wanxi.entity.TestPaperEntity" parameterType="com.cn.wanxi.entity.TestPaperEntity">
+        SCALE * from wx_tab_test_paper where subject=#{subject}
+    </select>
+    <insert id="addTestPaper" parameterType="com.cn.wanxi.entity.TestPaperEntity">
+        insert into wx_tab_test_paper (test_name,subject,sum_gader,test_start_time,Test_time,choose_number,choose_gader,completion_name,completion_name,
+recognized_name,recognized_gader) values (#{test_name},#{subject},#{sum_gader},#{test_start_time},#{Test_time},#{choose_number},#{choose_gader},#{completion_name},#{completion_name},#{recognized_name},#{recognized_gader})
+    </insert>
+    <delete id="deleteTestPaper" parameterType="java.lang.Integer">
+        delete from wx_tab_test_paper where id=#{id}
+    </delete>
+    <update id="updateTestPaper" parameterType="com.cn.wanxi.entity.TestPaperEntity">
+        update wx_tab_test_paper set test_name=#{test_name},subject=#{subject},sum_gader=#{sum_gader},test_start_time=#{test_start_time},Test_time=#{Test_time},choose_number=#{choose_number},choose_gader=#{choose_gader},completion_name=#{completion_name},completion_name=#{completion_name},recognized_name=#{recognized_name},recognized_gader=#{recognized_gader} where id=#{id}
+    </update>
+</mapper>

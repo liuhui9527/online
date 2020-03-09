@@ -1,0 +1,30 @@
+.back{
+    background-color: #adadad;
+}
+
+.test_id{
+    margin-left: 80px;
+}
+.title{
+    width: 200px ;
+    margin-top: 10px;
+}
+.form1style{
+    margin-top: 20px;
+}
+.font_J{
+    /*margin-left: 10px;*/
+}
+.form2style{
+    margin-top: 40px;
+    margin-left: 30px;
+    margin-bottom: 40px;
+}
+
+.submit_style1{
+    width: 100px;
+    margin: 0 auto;
+}
+.titlesum{
+    width: 100px;
+}

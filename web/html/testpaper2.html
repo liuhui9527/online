@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>题库随机抽取</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../css/testpaper.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+    <title>手动出题</title>
+</head>
+<script>
+    function addteachertitle() {
+        console.log($("#subject").val());
+        console.log($("#grade").val());
+        console.log($("#titlemodel").val());
+        console.log($("#title").val());
+        console.log($("#daan").val());
+       /* $.ajax({
+            url:'/wanxi/teacherappoint',
+            date:{
+                subject:$("#subject").val(),
+                grade:$("#grade").val(),
+                titlemodel:$("#titlemodel").val(),
+                title:$("#title").val(),
+                daan:$("#daan").val()
+            },
+            type:'get',
+            dateType:'json',
+            success:function (data) {
+                console.log(data);
+            }
+        });*/
+        $.get("/wanxi/teacherappoint",{subject:$("#subject").val(),
+            grade:$("#grade").val(),
+            titlemodel:$("#titlemodel").val(),
+            title:$("#title").val(),
+            daan:$("#daan").val()},function (data) {
+            console.log(data);
+            alert(data.result)
+        },"json");
+    }
+</script>
+<body class="back">
+<div class="container">
+    <div style="width:100px;margin: 0 auto;">
+        <button type="button" class="btn btn-primary title">试卷管理</button>
+    </div>
+    <div>
+        <ul class="nav nav-pills">
+            <li role="presentation"><a href="#">首页</a></li>
+            <li role="presentation"><a href="testpaper.html">题库随机抽取</a></li>
+            <li role="presentation" class="active"><a href="#">老师手动出题</a></li>
+            <li role="presentation"><a href="teacherfindAll.html">查询试题</a></li>
+
+        </ul>
+    </div>
+    <div><br><br><br></div>
+    <div>
+        <div class="font_J row col-md-4"><!--form-group-->
+            <label for="subject">科目:</label>
+            <select id="subject">
+                <option>数学</option>
+                <option>语文</option>
+                <option>英语</option>
+                <option>历史</option>
+                <option>化学</option>
+            </select>
+        </div>
+        <div class=" font_J row col-md-4">
+            <label for="grade">年级:</label>
+            <select id="grade">
+                <option>2017</option>
+                <option>2018</option>
+                <option>2019</option>
+                <option>2020</option>
+            </select>
+        </div>
+        <div class=" font_J row col-md-4">
+            <label for="titlemodel">题型:</label>
+            <select id="titlemodel">
+                <option>选择题</option>
+                <option>判断题</option>
+                <option>填空题</option>
+            </select>
+        </div>
+    </div>
+    <div>
+        <div class=" form1style ">
+            <div style="margin-top: 50px">
+                <div class="input-group input-group-lg col-md-12">
+                    <span class="input-group-addon">题目</span>
+                    <input type="text" class="form-control" id="title" placeholder="请输入题目" aria-describedby="sizing-addon1">
+                </div>
+                <div class="input-group input-group-lg col-md-12">
+                    <span class="input-group-addon">答案</span>
+                    <input type="text" class="form-control" id="daan" placeholder="请输入题目答案" aria-describedby="sizing-addon1">
+                </div>
+            </div>
+
+            <div class="checkbox" style="margin-top: 50px">
+                <label>
+                    <input type="checkbox"> 该题是否添加到本次考试中
+                </label>
+            </div>
+            <br>
+            <div style="width: 100px;margin:0 auto;" >
+                <div class="submit_style1 submit_style2"><input class="btn btn-default" type="submit" value="提交" onclick="addteachertitle()"></div>
+
+<!--
+                <button type="submit" class="btn btn-default row col-md-3" onclick="addteachertitle()">提交</button>
+-->
+<!--
+                <button type="button" class="btn btn-default row col-md-3"style="margin-left: 10px"><a href="teacherfindAll.html">查询试题</a></button>
+-->
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
