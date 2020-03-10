@@ -36,8 +36,8 @@ public class TestPaperService {
         return testPaperDao.deleteTestPaper(testPaperEntity);
     }
 
-    public List<TestPaperEntity> findall() {
-        return testPaperDao.findAll();
+    public List<TestPaperEntity> findall(TestPaperEntity testPaperEntity) {
+        return testPaperDao.findAll(testPaperEntity);
     }
 
     public int update(TestPaperEntity testPaperEntity) {

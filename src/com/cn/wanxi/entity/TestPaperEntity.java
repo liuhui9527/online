@@ -15,13 +15,13 @@ public class TestPaperEntity {
     private String      test_name;
     private String      subject;
     private Integer     sum_gader;
-    private Date        test_start_time;
+    private String      test_start_time;
     private Integer     test_time;
     private Integer     choose_number;
     private Integer     choose_gader;
     private Integer     completion_number;
     private Integer     completion_gader;
-    private Integer     recogized_num;
+    private Integer     recogized_number;
     private Integer     recogized_gader;
     private Integer     grade;
     private Integer     recongnized_rander_num;
@@ -153,12 +153,8 @@ public class TestPaperEntity {
         this.sum_gader = sum_gader;
     }
 
-    public Date getTest_start_time() {
+    public String getTest_start_time() {
         return test_start_time;
-    }
-
-    public void setTest_start_time(Date test_start_time) {
-        this.test_start_time = test_start_time;
     }
 
     public Integer getTest_time() {
@@ -201,12 +197,12 @@ public class TestPaperEntity {
         this.completion_gader = completion_gader;
     }
 
-    public Integer getRecogized_num() {
-        return recogized_num;
+    public Integer getRecogized_number() {
+        return recogized_number;
     }
 
-    public void setRecogized_num(Integer recogized_num) {
-        this.recogized_num = recogized_num;
+    public void setRecogized_number(Integer recogized_number) {
+        this.recogized_number = recogized_number;
     }
 
     public Integer getRecogized_gader() {
@@ -230,7 +226,7 @@ public class TestPaperEntity {
                 ", choose_gader=" + choose_gader +
                 ", completion_number=" + completion_number +
                 ", completion_gader=" + completion_gader +
-                ", recogized_num=" + recogized_num +
+                ", recogized_num=" + recogized_number +
                 ", recogized_gader=" + recogized_gader +
                 ", grade=" + grade +
                 ", recongnized_rander_num=" + recongnized_rander_num +
@@ -240,5 +236,6 @@ public class TestPaperEntity {
     }
 
     public void setTest_start_time(String test_start_time) {
+        this.test_start_time = test_start_time;
     }
 }

@@ -10,6 +10,7 @@ import com.cn.wanxi.entity.TestPaperEntity;
 import com.cn.wanxi.service.TeacherAppoinTitleService;
 import com.cn.wanxi.service.TestPaperService;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
@@ -18,9 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName TestPaperController
@@ -40,9 +43,9 @@ public class TestPaperController {
     @RequestMapping("/testpaper")
     @ResponseBody
     public void SetTestPaper(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        /*request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");*/
-//        考试名称：			test_name
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        //        考试名称：			test_name
 //        考试开始时间：		test_start_time
 //        测试时间：			test_time
 //        科目：				subject
@@ -78,7 +81,7 @@ public class TestPaperController {
         String Completion_title_sd = request.getParameter("completion_title_sd");
         String Recognized_num = request.getParameter("recognized_num");
         String Recognized_gader = request.getParameter("recognized_gader");
-        String Recongnized_rander_num = request.getParameter("recongnized_rander_num");
+        String Recongnized_rander_num = request.getParameter("recognized_rander_num");
         String Recongnized_title_sd = request.getParameter("recongnized_title_sd");
         int sum_grader = Sum_gader != "" && !Sum_gader.equals("") ? Integer.parseInt(Sum_gader) : 0;
         int sum_title_num = Sum_title_num != "" && !Sum_title_num.equals("") ? Integer.parseInt(Sum_title_num) : 0;
@@ -113,12 +116,32 @@ public class TestPaperController {
         testPaperEntity.setCompletion_rander_num(completion_rander_num);
         testPaperEntity.setCompletion_title_SD(completion_title2_SD);
         testPaperEntity.setRecogized_gader(recognized_gader);
-        testPaperEntity.setRecogized_num(recognized_num);
+        testPaperEntity.setRecogized_number(recognized_num);
         testPaperEntity.setRecongnized_rander_num(recongnized_rander_num);
         testPaperEntity.setRecongnized_title_SD(recongnized_title3_SD);
         int result_add = testPaperService.add(testPaperEntity);
        String message = result_add == 1 ? "新增成功" : "新增失败";
-        JSONArray jsonArray = JSONArray.fromObject(message);
-        response.getWriter().println(jsonArray.toString());
+        System.out.println(message);
+        /*JSONArray jsonArray = JSONArray.fromObject(message);
+        response.getWriter().println(jsonArray.toString());*/
+        JSONObject json = new JSONObject();
+        json.put("result",message);
+        response.getWriter().write(json.toString());
+    }
+    @RequestMapping("/findalltest")
+    @ResponseBody
+    public void findall(HttpServletResponse response,HttpServletRequest request) throws IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        String subject = request.getParameter("subject");
+        String Grade = request.getParameter("grade");
+        int grade = Grade != null && !Grade.equals("") ? Integer.parseInt(Grade) : 0;
+        TestPaperEntity testPaperEntity = new TestPaperEntity();
+        testPaperEntity.setSubject(subject);
+        testPaperEntity.setGrade(grade);
+        List<TestPaperEntity> list = testPaperService.findall(testPaperEntity);
+        JSONObject json = new JSONObject();
+        json.put("result",list);
+        response.getWriter().write(json.toString());
     }
 }

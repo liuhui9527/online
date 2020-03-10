@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface TestPaperDao {
     TestPaperEntity getById(Integer id);
-    List<TestPaperEntity> findAll();
+    List<TestPaperEntity> findAll(TestPaperEntity testPaperEntity);
     int addTestPaper(TestPaperEntity testPaperEntity);
     int deleteTestPaper(TestPaperEntity testPaperEntity);
     int updateTestPaper(TestPaperEntity testPaperEntity);

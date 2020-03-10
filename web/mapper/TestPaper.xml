@@ -4,11 +4,18 @@
 <mapper namespace="com.cn.wanxi.dao.TestPaperDao">
     <!--TeacherAppointTitleDao-->
     <select id="findAll" resultType="com.cn.wanxi.entity.TestPaperEntity" parameterType="com.cn.wanxi.entity.TestPaperEntity">
-        SCALE * from wx_tab_test_paper where subject=#{subject}
+        Select * from wx_tab_test_paper where subject=#{subject} and grade=#{grade}
     </select>
     <insert id="addTestPaper" parameterType="com.cn.wanxi.entity.TestPaperEntity">
-        insert into wx_tab_test_paper (test_name,subject,sum_gader,test_start_time,Test_time,choose_number,choose_gader,completion_name,completion_name,
-recognized_name,recognized_gader) values (#{test_name},#{subject},#{sum_gader},#{test_start_time},#{Test_time},#{choose_number},#{choose_gader},#{completion_name},#{completion_name},#{recognized_name},#{recognized_gader})
+        insert into wx_tab_test_paper (test_name,subject,grade,sum_gader,
+        test_start_time,test_time,choose_num,choose_gader,choose_rander_num,
+        choose_title_SD,completion_num,completion_gader,completion_rander_num,
+        completion_title_SD,recognized_num,recognized_gader,recongnized_rander_num,
+        recongnized_title_SD)values (#{test_name},#{subject},#{grade},#{sum_gader},
+        #{test_start_time},#{test_time},#{choose_number},#{choose_gader},
+		#{choose_rander_num},#{choose_title_sd},#{completion_number},#{completion_gader},
+		#{completion_rander_num},#{completion_title_sd},#{recogized_number},#{recogized_gader},
+		#{recongnized_rander_num},#{recongnized_title_sd})
     </insert>
     <delete id="deleteTestPaper" parameterType="java.lang.Integer">
         delete from wx_tab_test_paper where id=#{id}

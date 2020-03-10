@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/testpaper.js"></script>
+    <link rel="stylesheet" href="/css/testpaper.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <title>试卷查询</title>
+</head>
+<script>
+    function findalltest() {
+        $.get("/wanxi/findalltest",{subject:$("#subject").val(),grade:$("#grade").val()},function (data) {
+        console.log(data.result);
+        data=data.result;
+        var html ='';
+            for (let i = 0; i < data.length; i++) {
+                html+='<table class="table">\n' +
+                    '        <thead>\n' +
+                    '        <tr>\n' +
+                    '            <th>id</th>\n' +
+                    '            <th>'+data[i].id+'</th>\n' +
+                    '        </thead>\n' +
+                    '        <tbody>\n' +
+                    '        <tr class="active">\n' +
+                    '            <td>考试名称</td>\n' +
+                    '            <td>'+data[i].test_name+'</td>\n' +
+                    '        <tr class="success">\n' +
+                    '            <td>年级</td>\n' +
+                    '            <td>'+data[i].grade+'</td>\n' +
+                    '        <tr class="active">\n' +
+                    '            <td>科目</td>\n' +
+                    '            <td>'+data[i].subject+'</td>\n' +
+                    '        <tr class="success">\n' +
+                    '            <td>总分</td>\n' +
+                    '            <td>'+data[i].sum_gader+'</td>\n' +
+                    '        <tr class="active">\n' +
+                    '            <td>题目数量</td>\n' +
+                    '            <td>'+data[i].sum_title_num+'</td>\n' +
+                    '        <tr class="success">\n' +
+                    '            <td><a href="javascript:delete1('+data[i].id+')">删除该题</a>\n' +
+                    '                &nbsp;&nbsp;&nbsp;&nbsp;\n' +
+                    '                <a href="javascript:update1('+data[i].id+')">修改该试题</a></td>\n' +
+                    '        </tbody>\n' +
+                    '    </table>';
+            }
+            $("#findallhtml").html(html);
+        },"json")
+
+    }
+</script>
+<body class="container back">
+<div style="width:100px;margin: 0 auto;">
+    <button type="button" class="btn btn-primary title">试卷查询</button>
+</div>
+<div>
+    <ul class="nav nav-pills">
+        <li role="presentation"><a href="#">首页</a></li>
+        <li role="presentation"><a href="/html/testpaper.html">题库随机抽取</a></li>
+        <li role="presentation" class="active"><a href="#">试卷查询</a></li>
+        <li role="presentation"><a href="/html/testpaper2.html">老师手动出题</a></li>
+        <li role="presentation"><a href="/html/teacherfindAll.html">查询试题</a></li>
+    </ul>
+</div>
+<div><br><br><br></div>
+<a>请选择需要查询试卷的所对应的科目和年级：</a>
+<br>
+<label for="subject">科目:</label>
+<select id="subject">
+    <option>数学</option>
+    <option>语文</option>
+    <option>英语</option>
+    <option>历史</option>
+    <option>化学</option>
+</select>
+</div>
+<div class="form-group font_J row col-md-2">
+    <label for="grade">年级:</label>
+    <select id="grade">
+        <option>2017</option>
+        <option>2018</option>
+        <option>2019</option>
+        <option>2020</option>
+    </select>
+</div>
+<div id="findallhtml">
+    <!--<table class="table">
+        <thead>
+        <tr>
+            <th>id</th>
+        </thead>
+        <tbody>
+        <tr class="active">
+            <td>考试名称</td>
+            <td>产品1</td>
+        <tr class="success">
+            <td>年级</td>
+            <td>产品2</td>
+        <tr class="active">
+            <td>科目</td>
+            <td>产品3</td>
+        <tr class="success">
+            <td>总分</td>
+            <td>产品4</td>
+        <tr class="active">
+            <td>题目数量</td>
+            <td>产品5</td>
+        <tr class="success">
+            <td><a href="javascript:delete1('+data.result[i].id+')">删除该题</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="javascript:update1('+data.result[i].id+')">修改该试题</a></td>
+        </tbody>
+    </table>-->
+</div>
+<div class="submit_style1 submit_style2"><input class="btn btn-default" type="submit" value="查询"
+                                                onclick="findalltest()"></div>
+
+</body>
+</html>
