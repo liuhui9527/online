@@ -1,24 +1,19 @@
 package com.cn.wanxi.entity;
 
 
-public class UserEntity {
-    private Integer id;
+public class UserEntity extends BaseEntity {
     private String username;
     private String password;
-public UserEntity(){}
+
+    public UserEntity() {
+    }
+
     public UserEntity(Integer id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;

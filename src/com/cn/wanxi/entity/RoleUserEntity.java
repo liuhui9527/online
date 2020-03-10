@@ -1,19 +1,11 @@
 package com.cn.wanxi.entity;
 
-public class RoleUserEntity {
-    private Integer id;
+public class RoleUserEntity extends BaseEntity{
     private String username;
     private String password;
     private Integer roleId;
     private String roleName;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
