@@ -7,6 +7,9 @@
     <select id="getById" resultType="com.cn.wanxi.entity.UserEntity" parameterType="java.lang.Integer">
         SELECT id,username,password FROM user WHERE id = #{id}
     </select>
+    <select id="findAll" resultType="com.cn.wanxi.entity.UserEntity">
+        select * from user
+    </select>
     <insert id="add" parameterType="com.cn.wanxi.entity.UserEntity">
         insert into user (username,password) values (#{username},#{password})
     </insert>

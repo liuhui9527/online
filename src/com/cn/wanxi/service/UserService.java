@@ -16,7 +16,13 @@ public class UserService {
         return userDao.add(userEntity);
     }
 
-    public UserEntity getById(Integer id) {
+    public UserEntity findById(Integer id) {
         return userDao.getById(id);
+    }
+    public int update (UserEntity userEntity){
+        return userDao.update(userEntity);
+    }
+    public int delete(Integer userEntity){
+        return userDao.delete(userEntity);
     }
 }
