@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="js/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <script src="js/home.js" type="text/javascript"></script>
     <style>
         table, tr, td, thead {
             border: 1px solid blue;
@@ -12,110 +13,6 @@
 
     </style>
 <body>
-<script>
-    $(function () {
-        // 查询所有角色
-        selectAllRole();
-    })
-
-    function selectAllRole() {
-        $.ajax({
-            url: 'role/findAllRole',
-            type: 'get',
-            dataType: "json",
-            success: function (data) {
-                let da = data[0].data;
-                for (let i = 0; i < da.length; i++) {
-                    // if (i == 0)
-                    //     $("#selectRole").append('<option selected value="' + da[i].roleId + '">' + da[i].roleName + '</option>')
-                    // else
-                        $("#selectRole").append('<option value="' + da[i].roleId + '">' + da[i].roleName + '</option>')
-                }
-            }
-        })
-    }
-
-    function tijiao() {
-        $.ajax({
-            url: '/user/add',
-            data: {id: $("#id").val(), username: $("#username").val(), password: $("#password").val()},
-            type: 'get',
-            dataType: 'json',
-            success: function (data) {
-                console.log(data);
-                // xianshi(data);
-                $("#username").val(data[0].result);
-            }
-        })
-
-    }
-
-    function findAll() {
-        $.ajax({
-            url: '/user/findAll',
-            // data: {},
-            type: 'get',
-            dataType: 'json',
-            success: function (data) {
-                xianshi(data);
-            }
-        })
-    }
-
-    function xianshi(data) {
-        let html = '';
-        html += '<table><thead>' +
-            '<td>id</td>' +
-            '<td>用户名</td>' +
-            '<td>密码</td>' +
-            '<td>角色名称</td>' +
-            '<td>角色id</td>' +
-            '<td>操作</td>' +
-            '</thead>';
-        let da = data[0].data;
-        for (let i = 0; i < da.length; i++) {
-            html += '<tr>';
-            html += '<td>' + da[i].id + '</td>' +
-                '<td>' + da[i].username + '</td>' +
-                '<td>' + da[i].password + '</td>' +
-                '<td>' + da[i].roleName + '</td>' +
-                '<td>' + da[i].roleId + '</td>' +
-                '<td><a href="javascript:xiugai(' + da[i].id + ')"> 修改</a>' +
-                '<a href="javascript:deleteUser(' + da[i].id + ')"> 删除</a></td>' +
-                '</tr>';
-        }
-        html += '</table>';
-        $("#xianshi").html(html);
-    }
-
-    function xiugai(id) {
-
-        localStorage.setItem("id", id);
-        // $.ajax({
-        //     url: 'user/tiaozhuan',
-        //     type: 'post',
-        //     dataType: 'json',
-        //     success: function (data) {
-        //     }
-        // })
-        window.location.href = "html/UserUpdate.html";
-        // window.open("html/UserUpdate.html","_blank");
-    }
-
-    function deleteUser(id) {
-        console.log("删除id" + id);
-        $.ajax({
-            url: '/user/delete',
-            data: {id: id},
-            type: 'post',
-            dataType: 'json',
-            success: function (data) {
-                console.log(data);
-            }
-        })
-        findAll();
-    }
-</script>
 <div>
     ID：<input type="text" id="id">
 </div>
@@ -131,7 +28,7 @@
     </select>
 </div>
 <div>
-    <input type="button" value="提交" onclick="tijiao()">
+    <input type="button" id="btn" value="提交" >
     <input type="button" value="查询所有" onclick="findAll()">
 </div>
 <div id="xianshi"></div>
