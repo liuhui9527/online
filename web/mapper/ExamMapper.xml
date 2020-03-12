@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IExam接口方法提供sql语句配置 -->
+<mapper namespace="com.cn.wanxi.dao.IExam">
+
+    <!--    查询学生所有的试卷信息-->
+    <select id="getAllExam" parameterType="java.lang.Integer" resultMap="AllPaper">
+SELECT
+tp.id,
+tp.test_name,
+tp.paper_rollOfPeople,
+tp.test_subject,
+ei.exam_timeLength,
+ei.exam_time
+FROM
+wx_tab_test_paper tp LEFT JOIN exam_info ei USING(id)
+LEFT JOIN user_exam ue USING(exam_id)
+WHERE
+ue.user_id = #{id}
+    </select>
+
+    <resultMap id="AllPaper" type="com.cn.wanxi.entity.ExamPaperEntity">
+        <result property="examPaperId" column="id"/>
+        <result property="examPaperName" column="test_name"/>
+        <result property="examPaperAuthor" column="paper_rollOfPeople"/>
+        <result property="examPaperType" column="test_subject"/>
+        <result property="examPaperTime" column="exam_timeLength"/>
+        <result property="examStartTime" column="exam_time"/>
+    </resultMap>
+
+    <!--   查询试题 -->
+    <select id="getExamPaperById" resultType="com.cn.wanxi.entity.ExamEntity" parameterType="java.lang.Integer">
+SELECT
+tq.question_id AS examId,
+tq.question_subject AS examName,
+tq.question_option AS examChoice,
+tq.question_type AS examType
+from
+wx_tab_test_questions tq LEFT JOIN questions_paper qp
+USING(question_id)
+WHERE
+qp.id = #{id}
+    </select>
+
+    <!--查询考试答案 -->
+    <select id="getExamPaperAnswer" parameterType="com.cn.wanxi.entity.ExamEntity" resultType="java.lang.Integer">
+SELECT
+tq.question_id AS examId,
+tq.question_answer AS examAnswer,
+tq.question_type AS examType,
+tp.choose_gader AS selectMark,
+tp.completion_gader AS gapFillMark,
+tp.recognized_gader AS TFMark
+FROM
+wx_tab_test_questions tq LEFT JOIN questions_paper qp USING(question_id)
+LEFT JOIN wx_tab_test_paper tp USING(id)
+WHERE
+tp.id = #{id}
+        </select>
+
+    <!--    <insert id="AddStudentMark" parameterType="java.lang.Integer"> &#45;&#45;插入学生的成绩-->
+
+    <!--    </insert>-->
+
+</mapper>
