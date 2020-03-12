@@ -24,22 +24,22 @@ public class TeacherAppoinTitleService {
     @Autowired
     private TeacherAppointTitleDao teacherAppointTitleDao;
 
-    public TeacherAppointTitleEntity getbyid(Integer id){
+    public TeacherAppointTitleEntity getById(Integer id){
         return teacherAppointTitleDao.getById(id);
     }
     public int add(TeacherAppointTitleEntity teacherAppointTitleEntity) {
-        return teacherAppointTitleDao.addTestTitle(teacherAppointTitleEntity);
+        return teacherAppointTitleDao.add(teacherAppointTitleEntity);
     }
 
-    public List<TeacherAppointTitleEntity> findall(TeacherAppointTitleEntity teacherAppointTitleEntity) {
+    public List<TeacherAppointTitleEntity> findAll(TeacherAppointTitleEntity teacherAppointTitleEntity) {
         return teacherAppointTitleDao.findAll(teacherAppointTitleEntity);
     }
 
-    public int delete(int id) {
-        return teacherAppointTitleDao.deleteTestTitle(id);
+    public int del(int id) {
+        return teacherAppointTitleDao.del(id);
     }
 
     public int update(TeacherAppointTitleEntity teacherAppointTitleEntity) {
-        return teacherAppointTitleDao.updateTestTitle(teacherAppointTitleEntity);
+        return teacherAppointTitleDao.update(teacherAppointTitleEntity);
     }
 }

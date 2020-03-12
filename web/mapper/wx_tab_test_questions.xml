@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.wanxi.dao.Wx_tab_test_questionsDao">
+    <!--TestPaperDao-->
+    <!--<insert id="add" parameterType="com.cn.wanxi.entity.Test_paperEntity">
+        insert into test_paper(paper_subject,paper_rollOfPeople,paper_direction,paper_sumScore) values (#{paper_subject},#{paper_rollOfPeople},#{paper_direction},#{paper_sumScore})
+    </insert>
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from test_paper where paper_id=#{paper_id}
+    </delete>
+    <update id="update"  parameterType="com.cn.wanxi.entity.Test_paperEntity">
+    update test_paper set paper_subject=#{paper_subject},paper_rollOfPeople=#{paper_rollOfPeople},paper_direction=#{paper_direction}, paper_sumScore=#{paper_sumScore} where  paper_id=#{paper_id}
+</update>
+    <select id="getById" resultType="com.cn.wanxi.entity.Test_paperEntity" parameterType="java.lang.Integer">
+        select * from test_paper where  paper_id=#{paper_id}
+    </select>-->
+    <select id="findByTitleModel" resultType="com.cn.wanxi.entity.Wx_tab_test_questionsEntity"
+            parameterType="com.cn.wanxi.entity.Wx_tab_test_questionsEntity">
+    select * from wx_tab_test_questions where question_direction=#{question_direction} and question_type=#{question_type}
+    </select>
+</mapper>

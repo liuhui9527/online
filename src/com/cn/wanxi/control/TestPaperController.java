@@ -19,9 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +45,7 @@ public class TestPaperController {
 
     @RequestMapping("/testpaper")
     @ResponseBody
-    public void SetTestPaper(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void add(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         //        考试名称：			test_name
@@ -65,7 +68,7 @@ public class TestPaperController {
 //        填空题随机抽取数量：recongnized_rander_num
 //        填空题手动设置数量：recongnized_title3_SD
         String test_name = request.getParameter("test_name");
-        String test_Start_Time = request.getParameter("test_start_time");
+        String Test_Start_Time = request.getParameter("test_start_time");
         String Test_time = request.getParameter("test_time");
         String subject = request.getParameter("subject");
         String Grade = request.getParameter("grade");
@@ -73,52 +76,29 @@ public class TestPaperController {
         String Sum_title_num = request.getParameter("sum_title_num");
         String Choose_number = request.getParameter("choose_number");
         String Choose_gader = request.getParameter("choose_gader");
-        String Choose_rander_num = request.getParameter("choose_rander_num");
-        String Choose_title_sd = request.getParameter("choose_title_sd");
         String Completion_num = request.getParameter("completion_num");
         String Completion_gader = request.getParameter("completion_gader");
-        String Completion_rander_num = request.getParameter("completion_rander_num");
-        String Completion_title_sd = request.getParameter("completion_title_sd");
         String Recognized_num = request.getParameter("recognized_num");
         String Recognized_gader = request.getParameter("recognized_gader");
-        String Recongnized_rander_num = request.getParameter("recognized_rander_num");
-        String Recongnized_title_sd = request.getParameter("recongnized_title_sd");
+        String paper_rollOfPeople = request.getParameter("paper_rollOfPeople");
         int sum_grader = Sum_gader != "" && !Sum_gader.equals("") ? Integer.parseInt(Sum_gader) : 0;
         int sum_title_num = Sum_title_num != "" && !Sum_title_num.equals("") ? Integer.parseInt(Sum_title_num) : 0;
         int choose_number = Choose_number != "" && !Choose_number.equals("") ? Integer.parseInt(Choose_number) : 0;
         int choose_gader = Choose_gader != "" && !Choose_gader.equals("") ? Integer.parseInt(Choose_gader) : 0;
-        int choose_rander_num = Choose_rander_num != "" && !Choose_rander_num.equals("") ? Integer.parseInt(Choose_rander_num) : 0;
-        int choose_title_SD = Choose_title_sd != "" && !Choose_title_sd.equals("") ? Integer.parseInt(Choose_title_sd) : 0;
         int completion_num = Completion_num != "" && !Completion_num.equals("") ? Integer.parseInt(Completion_num) : 0;
         int completion_gader = Completion_gader != "" && !Completion_gader.equals("") ? Integer.parseInt(Completion_gader) : 0;
-        int completion_rander_num = Completion_rander_num != "" && !Completion_rander_num.equals("") ? Integer.parseInt(Completion_rander_num) : 0;
-        int completion_title2_SD = Completion_title_sd != "" && !Completion_title_sd.equals("") ? Integer.parseInt(Completion_title_sd) : 0;
         int recognized_num = Recognized_num != "" && !Recognized_num.equals("") ? Integer.parseInt(Recognized_num) : 0;
         int recognized_gader = Recognized_gader != "" && !Recognized_gader.equals("") ? Integer.parseInt(Recognized_gader) : 0;
-        int recongnized_rander_num = Recongnized_rander_num != "" && !Recongnized_rander_num.equals("") ? Integer.parseInt(Recongnized_rander_num) : 0;
-        int recongnized_title3_SD = Recongnized_title_sd != "" && !Recongnized_title_sd.equals("") ? Integer.parseInt(Recongnized_title_sd) : 0;
         int grade = Grade != "" && !Grade.equals("") ? Integer.parseInt(Grade) : 0;
         int test_time = Test_time != "" && !Test_time.equals("") ? Integer.parseInt(Test_time) : 0;
+        Date startTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(Test_Start_Time);
         TestPaperEntity testPaperEntity = new TestPaperEntity();
         testPaperEntity.setTest_name(test_name);
-        testPaperEntity.setTest_start_time(test_Start_Time);
-        testPaperEntity.setTest_time(test_time);
-        testPaperEntity.setSubject(subject);
+        testPaperEntity.setTest_subject(subject);
         testPaperEntity.setGrade(grade);
         testPaperEntity.setSum_gader(sum_grader);
-        testPaperEntity.setSum_title_num(sum_title_num);
-        testPaperEntity.setChoose_number(choose_number);
         testPaperEntity.setChoose_gader(choose_gader);
-        testPaperEntity.setChoose_rander_num(choose_rander_num);
-        testPaperEntity.setChoose_title_SD(choose_title_SD);
         testPaperEntity.setCompletion_gader(completion_gader);
-        testPaperEntity.setCompletion_number(completion_num);
-        testPaperEntity.setCompletion_rander_num(completion_rander_num);
-        testPaperEntity.setCompletion_title_SD(completion_title2_SD);
-        testPaperEntity.setRecogized_gader(recognized_gader);
-        testPaperEntity.setRecogized_number(recognized_num);
-        testPaperEntity.setRecongnized_rander_num(recongnized_rander_num);
-        testPaperEntity.setRecongnized_title_SD(recongnized_title3_SD);
         int result_add = testPaperService.add(testPaperEntity);
        String message = result_add == 1 ? "新增成功" : "新增失败";
         System.out.println(message);
@@ -130,18 +110,90 @@ public class TestPaperController {
     }
     @RequestMapping("/findalltest")
     @ResponseBody
-    public void findall(HttpServletResponse response,HttpServletRequest request) throws IOException {
+    public void findAll(HttpServletResponse response,HttpServletRequest request) throws IOException {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         String subject = request.getParameter("subject");
         String Grade = request.getParameter("grade");
         int grade = Grade != null && !Grade.equals("") ? Integer.parseInt(Grade) : 0;
         TestPaperEntity testPaperEntity = new TestPaperEntity();
-        testPaperEntity.setSubject(subject);
+        testPaperEntity.setTest_subject(subject);
         testPaperEntity.setGrade(grade);
-        List<TestPaperEntity> list = testPaperService.findall(testPaperEntity);
+        List<TestPaperEntity> list = testPaperService.findAll(testPaperEntity);
+        /*for (TestPaperEntity entity : list) {
+            long test_start_time = entity.getTest_start_time();
+            Date data = new Date(test_start_time);
+            String startTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(data);
+            entity.setTest_start_time(startTime);
+        }*/
         JSONObject json = new JSONObject();
         json.put("result",list);
+        response.getWriter().write(json.toString());
+    }
+    @RequestMapping("/getbyid")
+    @ResponseBody
+    public void getById(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        String ID = request.getParameter("id");
+        Integer id = ID != null && !ID.equals("") ? Integer.parseInt(ID) : 0;
+        TestPaperEntity testPaperEntity = new TestPaperEntity();
+        testPaperEntity.setId(id);
+        TestPaperEntity list = testPaperService.getById(testPaperEntity);
+        JSONObject json = new JSONObject();
+        json.put("result",list);
+        response.getWriter().write(json.toString());
+    }
+    @RequestMapping("/updatetestpaper")
+    @ResponseBody
+    public void update(HttpServletResponse response,HttpServletRequest request) throws IOException, ParseException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        String ID = request.getParameter("id");
+        String test_name = request.getParameter("test_name");
+        String Test_Start_Time = request.getParameter("test_start_time");
+        String Test_time = request.getParameter("test_time");
+        String subject = request.getParameter("subject");
+        String Grade = request.getParameter("grade");
+        String Sum_gader = request.getParameter("sum_gader");
+        String Sum_title_num = request.getParameter("sum_title_num");
+//        String Choose_number = request.getParameter("choose_number");
+        String Choose_gader = request.getParameter("choose_gader");
+//        String Completion_num = request.getParameter("completion_num");
+        String Completion_gader = request.getParameter("completion_gader");
+//        String Recognized_num = request.getParameter("recognized_num");
+        String Recognized_gader = request.getParameter("recognized_gader");
+        String paper_rollOfPeople = request.getParameter("paper_rollOfPeople");
+        int sum_grader = Sum_gader != "" && !Sum_gader.equals("") ? Integer.parseInt(Sum_gader) : 0;
+        int sum_title_num = Sum_title_num != "" && !Sum_title_num.equals("") ? Integer.parseInt(Sum_title_num) : 0;
+//        int choose_number = Choose_number != "" && !Choose_number.equals("") ? Integer.parseInt(Choose_number) : 0;
+        int choose_gader = Choose_gader != "" && !Choose_gader.equals("") ? Integer.parseInt(Choose_gader) : 0;
+//        int completion_num = Completion_num != "" && !Completion_num.equals("") ? Integer.parseInt(Completion_num) : 0;
+        int completion_gader = Completion_gader != "" && !Completion_gader.equals("") ? Integer.parseInt(Completion_gader) : 0;
+//        int recognized_num = Recognized_num != "" && !Recognized_num.equals("") ? Integer.parseInt(Recognized_num) : 0;
+        int recognized_gader = Recognized_gader != "" && !Recognized_gader.equals("") ? Integer.parseInt(Recognized_gader) : 0;
+        int grade = Grade != "" && !Grade.equals("") ? Integer.parseInt(Grade) : 0;
+        int id = ID != null && !ID.equals("") ? Integer.parseInt(ID) : 0;
+        int test_time = Test_time != "" && !Test_time.equals("") ? Integer.parseInt(Test_time) : 0;
+        Date startTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(Test_Start_Time);
+
+        TestPaperEntity testPaperEntity = new TestPaperEntity();
+        testPaperEntity.setId(id);
+        testPaperEntity.setTest_name(test_name);
+        testPaperEntity.setTest_subject(subject);
+        testPaperEntity.setGrade(grade);
+        testPaperEntity.setSum_gader(sum_grader);
+        testPaperEntity.setChoose_gader(choose_gader);
+        testPaperEntity.setCompletion_gader(completion_gader);
+        testPaperEntity.setPaper_rollOfPeople(paper_rollOfPeople);
+        int result_add = testPaperService.update(testPaperEntity);
+        String message = result_add == 1 ? "修改成功" : "修改失败";
+        System.out.println(message);
+        System.out.println(startTime);
+        /*JSONArray jsonArray = JSONArray.fromObject(message);
+        response.getWriter().println(jsonArray.toString());*/
+        JSONObject json = new JSONObject();
+        json.put("result",message);
         response.getWriter().write(json.toString());
     }
 }

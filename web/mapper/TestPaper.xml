@@ -4,23 +4,27 @@
 <mapper namespace="com.cn.wanxi.dao.TestPaperDao">
     <!--TeacherAppointTitleDao-->
     <select id="findAll" resultType="com.cn.wanxi.entity.TestPaperEntity" parameterType="com.cn.wanxi.entity.TestPaperEntity">
-        Select * from wx_tab_test_paper where subject=#{subject} and grade=#{grade}
+        Select * from wx_tab_test_paper where test_subject=#{test_subject} and grade=#{grade}
     </select>
-    <insert id="addTestPaper" parameterType="com.cn.wanxi.entity.TestPaperEntity">
-        insert into wx_tab_test_paper (test_name,subject,grade,sum_gader,
-        test_start_time,test_time,choose_num,choose_gader,choose_rander_num,
-        choose_title_SD,completion_num,completion_gader,completion_rander_num,
-        completion_title_SD,recognized_num,recognized_gader,recongnized_rander_num,
-        recongnized_title_SD)values (#{test_name},#{subject},#{grade},#{sum_gader},
-        #{test_start_time},#{test_time},#{choose_number},#{choose_gader},
-		#{choose_rander_num},#{choose_title_sd},#{completion_number},#{completion_gader},
-		#{completion_rander_num},#{completion_title_sd},#{recogized_number},#{recogized_gader},
-		#{recongnized_rander_num},#{recongnized_title_sd})
+    <insert id="add" parameterType="com.cn.wanxi.entity.TestPaperEntity">
+        insert into wx_tab_test_paper (test_name,test_subject,grade,sum_gader,
+        choose_gader,
+        completion_gader,recognized_gader,paper_rollOfPeople
+        )values (#{test_name},#{test_subject},#{grade},#{sum_gader},
+        #{#{choose_gader},
+        #{completion_gader},#{recognized_gader},#{paper_rollOfPeople})
     </insert>
-    <delete id="deleteTestPaper" parameterType="java.lang.Integer">
+    <delete id="del" parameterType="java.lang.Integer">
         delete from wx_tab_test_paper where id=#{id}
     </delete>
-    <update id="updateTestPaper" parameterType="com.cn.wanxi.entity.TestPaperEntity">
-        update wx_tab_test_paper set test_name=#{test_name},subject=#{subject},sum_gader=#{sum_gader},test_start_time=#{test_start_time},Test_time=#{Test_time},choose_number=#{choose_number},choose_gader=#{choose_gader},completion_name=#{completion_name},completion_name=#{completion_name},recognized_name=#{recognized_name},recognized_gader=#{recognized_gader} where id=#{id}
+    <update id="update" parameterType="com.cn.wanxi.entity.TestPaperEntity">
+        update wx_tab_test_paper set
+        test_name=#{test_name},test_subject=#{test_subject},grade=#{grade},sum_gader=#{sum_gader},
+        choose_gader=#{choose_gader},completion_gader=#{completion_gader},
+        recognized_gader=#{recognized_gader},paper_rollOfPeople=#{paper_rollOfPeople}
+        where id=#{id}
     </update>
+    <select id="getById" resultType="com.cn.wanxi.entity.TestPaperEntity" parameterType="com.cn.wanxi.entity.TestPaperEntity">
+        select * from wx_tab_test_paper where id=#{id}
+    </select>
 </mapper>

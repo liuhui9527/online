@@ -23,25 +23,25 @@ public class TestPaperService {
     @Autowired
     private TestPaperDao testPaperDao;
 
-    public TestPaperEntity getbyid(Integer id){
-        return testPaperDao.getById(id);
+    public TestPaperEntity getById(TestPaperEntity testPaperEntity){
+        return testPaperDao.getById(testPaperEntity);
     }
     public int add(TestPaperEntity testPaperEntity) {
 
-        return testPaperDao.addTestPaper(testPaperEntity);
+        return testPaperDao.add(testPaperEntity);
     }
 
     public int delete(TestPaperEntity testPaperEntity) {
 
-        return testPaperDao.deleteTestPaper(testPaperEntity);
+        return testPaperDao.del(testPaperEntity);
     }
 
-    public List<TestPaperEntity> findall(TestPaperEntity testPaperEntity) {
+    public List<TestPaperEntity> findAll(TestPaperEntity testPaperEntity) {
         return testPaperDao.findAll(testPaperEntity);
     }
 
     public int update(TestPaperEntity testPaperEntity) {
 
-        return testPaperDao.updateTestPaper(testPaperEntity);
+        return testPaperDao.update(testPaperEntity);
     }
 }

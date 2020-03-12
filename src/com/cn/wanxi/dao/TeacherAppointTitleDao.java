@@ -17,7 +17,7 @@ import java.util.List;
 public interface TeacherAppointTitleDao {
     TeacherAppointTitleEntity getById(Integer id);
     List<TeacherAppointTitleEntity> findAll(TeacherAppointTitleEntity teacherAppointTitleEntity);
-    int addTestTitle(TeacherAppointTitleEntity teacherAppointTitleEntity);
-    int deleteTestTitle(int id);
-    int updateTestTitle(TeacherAppointTitleEntity teacherAppointTitleEntity);
+    int add(TeacherAppointTitleEntity teacherAppointTitleEntity);
+    int del(int id);
+    int update(TeacherAppointTitleEntity teacherAppointTitleEntity);
 }

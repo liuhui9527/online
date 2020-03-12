@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--@Author: lld-->
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,42 +16,75 @@
 <script>
     function findalltest() {
         $.get("/wanxi/findalltest",{subject:$("#subject").val(),grade:$("#grade").val()},function (data) {
+            xianshi(data);
+        },"json");
+    }
+    function xianshi(data) {
         console.log(data.result);
         data=data.result;
         var html ='';
-            for (let i = 0; i < data.length; i++) {
-                html+='<table class="table">\n' +
-                    '        <thead>\n' +
-                    '        <tr>\n' +
-                    '            <th>id</th>\n' +
-                    '            <th>'+data[i].id+'</th>\n' +
-                    '        </thead>\n' +
-                    '        <tbody>\n' +
-                    '        <tr class="active">\n' +
-                    '            <td>考试名称</td>\n' +
-                    '            <td>'+data[i].test_name+'</td>\n' +
-                    '        <tr class="success">\n' +
-                    '            <td>年级</td>\n' +
-                    '            <td>'+data[i].grade+'</td>\n' +
-                    '        <tr class="active">\n' +
-                    '            <td>科目</td>\n' +
-                    '            <td>'+data[i].subject+'</td>\n' +
-                    '        <tr class="success">\n' +
-                    '            <td>总分</td>\n' +
-                    '            <td>'+data[i].sum_gader+'</td>\n' +
-                    '        <tr class="active">\n' +
-                    '            <td>题目数量</td>\n' +
-                    '            <td>'+data[i].sum_title_num+'</td>\n' +
-                    '        <tr class="success">\n' +
-                    '            <td><a href="javascript:delete1('+data[i].id+')">删除该题</a>\n' +
-                    '                &nbsp;&nbsp;&nbsp;&nbsp;\n' +
-                    '                <a href="javascript:update1('+data[i].id+')">修改该试题</a></td>\n' +
-                    '        </tbody>\n' +
-                    '    </table>';
-            }
-            $("#findallhtml").html(html);
-        },"json")
-
+        for (let i = 0; i < data.length; i++) {
+            html+='<table class="table">\n' +
+                '        <thead>\n' +
+                '        <tr>\n' +
+                '            <th>id</th>\n' +
+                '            <th>'+data[i].id+'</th>\n' +
+                '        </thead>\n' +
+                '        <tbody>\n' +
+                '        <tr class="active">\n' +
+                '            <td>考试名称</td>\n' +
+                '            <td>'+data[i].test_name+'</td>\n' +
+                '        <tr class="success">\n' +
+                '            <td>年级</td>\n' +
+                '            <td>'+data[i].grade+'</td>\n' +
+                '        <tr class="active">\n' +
+                '            <td>科目</td>\n' +
+                '            <td>'+data[i].test_subject+'</td>\n' +
+                '        <tr class="success">\n' +
+                '            <td>总分</td>\n' +
+                '            <td>'+data[i].sum_gader+'</td>\n' +
+                '        <tr class="active">\n' +
+                '            <td>题目总数量</td>\n' +
+                '            <td>'+data[i].sum_title_num+'</td>\n' +
+                '        <tr class="success">\n' +
+                '            <td>选择题总分</td>\n' +
+                '            <td>'+data[i].choose_gader+'</td>\n' +
+                '        <tr class="active">\n' +
+                '            <td>选择题数量</td>\n' +
+                '            <td>'+data[i].choose_number+'</td>\n' +
+                '        <tr class="success">\n' +
+                '            <td>填空题总分</td>\n' +
+                '            <td>'+data[i].completion_gader+'</td>\n' +
+                '        <tr class="active">\n' +
+                '            <td>填空题数量</td>\n' +
+                '            <td>'+data[i].completion_number+'</td>\n' +
+                '        <tr class="success">\n' +
+                '            <td>判断题总分</td>\n' +
+                '            <td>'+data[i].recogized_gader+'</td>\n' +
+                '        <tr class="active">\n' +
+                '            <td>判断题数量</td>\n' +
+                '            <td>'+data[i].recogized_number+'</td>\n' +
+                '        <tr class="success">\n' +
+                '            <td>操作</td>\n' +
+                '            <td><a href="javascript:delete1('+data[i].id+')">删除该题</a>\n' +
+                '                &nbsp;&nbsp;&nbsp;&nbsp;\n' +
+                '                <a href="javascript:update1('+data[i].id+')">修改该试题</a></td>\n' +
+                '        </tbody>\n' +
+                '    </table>'+'<br><br>';
+        }
+        $("#findallhtml").html(html);
+    }
+    function delete1(id) {
+        $.get('/wanxi/delete',{id:id},function (data) {
+            console.log(data.result);
+            alert(data.result);
+            findalltest();
+        },'json');
+    }
+    function update1(id) {
+        localStorage.clear();
+        localStorage.setItem("id",id);
+        window.location.href="/html/testpaperupdate.html";
     }
 </script>
 <body class="container back">
@@ -62,8 +96,9 @@
         <li role="presentation"><a href="#">首页</a></li>
         <li role="presentation"><a href="/html/testpaper.html">题库随机抽取</a></li>
         <li role="presentation" class="active"><a href="#">试卷查询</a></li>
+        <li role="presentation"><a href="/html/testpaperupdate.html">试卷查询</a></li>
         <li role="presentation"><a href="/html/testpaper2.html">老师手动出题</a></li>
-        <li role="presentation"><a href="/html/teacherfindAll.html">查询试题</a></li>
+        <!--<li role="presentation"><a href="/html/teacherfindAll.html">查询试题</a></li>-->
     </ul>
 </div>
 <div><br><br><br></div>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.wanxi.dao.Questions_paperDao">
+    <!--TestPaperDao-->
+    <insert id="add" parameterType="com.cn.wanxi.entity.Questions_paperEntity">
+        insert into questions_paper(paper_id,question_id) values (#{paper_id},#{question_id}})
+    </insert>
+    <delete id="del" parameterType="java.lang.Integer">
+        delete from questions_paper where question_id=#{question_id}
+    </delete>
+    <select id="findAll" resultType="com.cn.wanxi.entity.Questions_paperEntity" >
+    select * from questions_paper
+</select>
+    <update id="update"  parameterType="com.cn.wanxi.entity.Questions_paperEntity">
+    update questions_paper set paper_id=#{paper_id} where  question_id=#{question_id}
+</update>
+    <select id="getById" resultType="com.cn.wanxi.entity.Questions_paperEntity" parameterType="java.lang.Integer">
+        select * from questions_paper where  paper_id=#{paper_id}
+    </select>
+</mapper>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+<!--@Author: lld-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -55,17 +56,34 @@
         console.log($("#choose_gader").val());
         console.log($("#completion_gader").val());
         console.log($("#grade").val());
-        console.log($("#completion_rander_num").val());
-        console.log($("#choose_rander_num").val());
-        console.log($("#choose_title_sd").val());
         console.log($("#completion_num").val());
-        console.log($("#completion_title2_sd").val());
         console.log($("#recognized_num").val());
         console.log($("#recognized_gader").val());
-        console.log($("#recongnized_rander_num").val());
-        console.log($("#recongnized_title3_sd").val());
+        console.log($("#paper_rollOfPeople").val());
 
-
+        if(parseInt($("#sum_gader").val()) != (parseInt($("#choose_gader").val())+parseInt($("#completion_gader").val())+parseInt($("#recognized_gader").val()))){
+            alert($("#sum_gader").val()+""+$("#choose_gader").val()+""+$("#completion_gader").val()+""+$("#recognized_gader").val());
+            alert("分数设置不合理，题型总分和总分不相等,请重新设置");
+            $("#sum_gader").val(parseInt($("#choose_gader").val())+parseInt($("#completion_gader").val())+parseInt($("#recognized_gader").val()));
+            return;
+        }
+        if (parseInt($("#sum_title_num").val()) != (parseInt($("#choose_number").val())+parseInt($("#completion_num").val())+parseInt($("#recognized_num").val()))){
+            alert("总题目数量和已出题目数量不相等,准备自动更新总题目数量,并重新提交");
+            $("#sum_title_num").val($("#choose_number").val()+$("#completion_num").val()+$("#recognized_num").val());
+            return;
+        }
+        if (parseInt($("#choose_number").val()) != (parseInt($("#choose_title_sd").val())+parseInt($("#choose_rander_num").val()))){
+            alert("选择题总数量和已出选择题总数量不相等，请检查");
+            return;
+        }
+        if (parseInt($("#completion_num").val()) != (parseInt($("#completion_title2_sd").val())+parseInt($("#completion_rander_num").val()))){
+            alert("填空题总数量和已出填空题总数量不相等，请检查");
+            return;
+        }
+        if (parseInt($("#recognized_num").val()) != (parseInt($("#recongnized_title3_sd").val())+parseInt($("#recongnized_rander_num").val()))){
+            alert("判断题总数量和已出判断题总数量不相等，请检查");
+            return;
+        }
         /*jQuery.ajax({
             url: '/wanxi/testpaper',
             data: {
@@ -99,7 +117,7 @@
             }
 
         });*/
-        $.get('/wanxi/testpaper',{
+        $.get('/wanxi/testpaper', {
             test_name: $("#test_name").val(),
             grade: $("#grade").val(),
             subject: $("#subject").val(),
@@ -109,21 +127,89 @@
             test_time: $("#test_time").val(),
             choose_number: $("#choose_number").val(),
             choose_gader: $("#choose_gader").val(),
-            choose_rander_num: $("#choose_rander_num").val(),
-            choose_title_sd: $("#choose_title_sd").val(),
             completion_gader: $("#completion_gader").val(),
-            completion_rander_num: $("#completion_rander_num").val(),
             completion_num: $("#completion_num").val(),
-            completion_title_sd: $("#completion_title2_sd").val(),
             recognized_num: $("#recognized_num").val(),
             recognized_gader: $("#recognized_gader").val(),
-            recognized_rander_num: $("#recongnized_rander_num").val(),
-            recongnized_title_sd: $("#recongnized_title3_sd").val()
-        },function (data) {
+            paper_rollOfPeople: $("#paper_rollOfPeople").val()
+        }, function (data) {
             console.log(data.result);
             alert(data.result);
-        },'json');
+        }, 'json');
+        localStorage.clear();
     }
+
+    $(function () {
+        /*localStorage.getItem(data);
+        $("#choose_title_sd").val(data);*/
+        $.get('/wanxi/return_data', function (data) {
+            $("#choose_title_sd").val(data.data_length);
+        }, 'json');
+    });
+
+    function OnInput(event) {
+        console.log("文本框被改变1");
+        localStorage.setItem("test_name", $("#test_name").val());
+        console.log("$(\"#test_name\").val()"+$("#test_name").val());
+        console.log(localStorage.getItem("test_name", $("#test_name").val()));
+        localStorage.setItem("subject", $("#subject").val());
+        localStorage.setItem("paper_rollOfPeople", $("#paper_rollOfPeople").val());
+        localStorage.setItem("sum_gader", $("#sum_gader").val());
+        localStorage.setItem("sum_title_num", $("#sum_title_num").val());
+        localStorage.setItem("test_start_time", $("#test_start_time").val());
+        localStorage.setItem("test_time", $("#test_time").val());
+        localStorage.setItem("choose_number", $("#choose_number").val());
+        localStorage.setItem("choose_gader", $("#choose_gader").val());
+        localStorage.setItem("completion_gader", $("#completion_gader").val());
+        localStorage.setItem("grade", $("#grade").val());
+        localStorage.setItem("completion_num", $("#completion_num").val());
+        localStorage.setItem("recognized_num", $("#recognized_num").val());
+        localStorage.setItem("recognized_gader", $("#recognized_gader").val());
+        localStorage.setItem("recongnized_rander_num",$("#recognized_num").val()-localStorage.getItem("recongnized_title3_sd"));
+        localStorage.setItem("completion_rander_num",$("#completion_num").val()-localStorage.getItem("completion_title2_sd"));
+        localStorage.setItem("choose_rander_num",$("#choose_number").val()-localStorage.getItem("choose_title_sd"));
+        console.log("出去了");
+
+    }
+
+    /*function OnPropChanged(event) {
+        alert("文本框被改变2");
+        localStorage.setItem("test_name", $("#test_name").val());
+        localStorage.setItem("subject", $("#subject").val());
+        localStorage.setItem("sum_gader", $("#sum_gader").val());
+        localStorage.setItem("sum_title_num", $("#sum_title_num").val());
+        localStorage.setItem("test_start_time", $("#test_start_time").val());
+        localStorage.setItem("test_time", $("#test_time").val());
+        localStorage.setItem("choose_number", $("#choose_number").val());
+        localStorage.setItem("choose_gader", $("#choose_gader").val());
+        localStorage.setItem("completion_gader", $("#completion_gader").val());
+        localStorage.setItem("grade", $("#grade").val());
+        localStorage.setItem("completion_num", $("#completion_num").val());
+        localStorage.setItem("recognized_num", $("#recognized_num").val());
+        localStorage.setItem("recognized_gader", $("#recognized_gader").val());
+    }*/
+
+    $(document).ready(function () {
+        $("#test_name").val(localStorage.getItem("test_name"));
+        console.log("read:"+localStorage.getItem("test_name"));
+        $("#subject").val(localStorage.getItem("subject"));
+        $("#sum_gader").val(localStorage.getItem("sum_gader"));
+        $("#sum_title_num").val(localStorage.getItem("sum_title_num"));
+        $("#test_start_time").val(localStorage.getItem("test_start_time"));
+        $("#test_time").val(localStorage.getItem("test_time"));
+        $("#choose_number").val(localStorage.getItem("choose_number"));
+        $("#choose_gader").val(localStorage.getItem("choose_gader"));
+        $("#completion_gader").val(localStorage.getItem("completion_gader"));
+        $("#grade").val(localStorage.getItem("grade"));
+        $("#completion_num").val(localStorage.getItem("completion_num"));
+        $("#recognized_num").val(localStorage.getItem("recognized_num"));
+        $("#recognized_gader").val(localStorage.getItem("recognized_gader"));
+        $("#choose_title_sd").val(localStorage.getItem("choose_title_sd"));
+        $("#completion_title2_sd").val(localStorage.getItem("completion_title2_sd"));
+        $("#recongnized_title3_sd").val(localStorage.getItem("recongnized_title3_sd"));
+        $("#paper_rollOfPeople").val(localStorage.getItem("paper_rollOfPeople"));
+
+    })
 </script>
 <body class="container back">
 <div style="width:100px;margin: 0 auto;">
@@ -134,25 +220,30 @@
         <li role="presentation"><a href="#">首页</a></li>
         <li role="presentation" class="active"><a href="#">题库随机抽取</a></li>
         <li role="presentation"><a href="/html/findalltestpaper.html">试卷查询</a></li>
+        <li role="presentation"><a href="/html/testpaperupdate.html">试卷修改</a></li>
         <li role="presentation"><a href="/html/testpaper2.html">老师手动出题</a></li>
-        <li role="presentation"><a href="/html/teacherfindAll.html">查询试题</a></li>
+        <!--<li role="presentation"><a href="/html/teacherfindAll.html">查询试题</a></li>-->
     </ul>
 </div>
 <div><br><br><br></div>
 <div class="test_id">
-    <div class="form-group row col-md-4">
+    <div class="form-group row col-md-3">
         <label for="test_name">本次考试ID：</label>
-        <input type="text" id="test_name" placeholder="期末考试">
+        <input type="text" id="test_name" placeholder="期末考试" oninput="OnInput (event)">
     </div>
 
-    <div class="form-group row col-md-4">
+<!--    <div class="form-group row col-md-3">
         <label for="test_start_time">本次考试时间：</label>
-        <input type="text" id="test_start_time" placeholder="2020-3-6 9:30:00">
+        <input type="text" id="test_start_time" placeholder="2020-3-6 9:30:00" oninput="OnInput (event)">
     </div>
 
-    <div class="form-group row col-md-4">
+    <div class="form-group row col-md-3">
         <label for="test_time">答题时间：</label>
-        <input type="text" id="test_time" placeholder="150">
+        <input type="text" id="test_time" placeholder="150" oninput="OnInput (event)">
+    </div>-->
+    <div class="form-group row col-md-3">
+        <label for="paper_rollOfPeople">出卷人：</label>
+        <input type="text" id="paper_rollOfPeople" placeholder="张三" oninput="OnInput (event)">
     </div>
 </div>
 <div><br><br><br><br></div>
@@ -162,7 +253,7 @@
 <div>
     <div class="form-group font_J row col-md-2">
         <label for="subject">科目:</label>
-        <select id="subject">
+        <select id="subject" oninput="OnInput (event)">
             <option>数学</option>
             <option>语文</option>
             <option>英语</option>
@@ -172,7 +263,7 @@
     </div>
     <div class="form-group font_J row col-md-2">
         <label for="grade">年级:</label>
-        <select id="grade">
+        <select id="grade" oninput="OnInput (event)">
             <option>2017</option>
             <option>2018</option>
             <option>2019</option>
@@ -181,83 +272,84 @@
     </div>
     <div class="form-group font_J row col-md-4">
         <label for="sum_gader">总分:</label>
-        <input type="text" id="sum_gader" placeholder="100">
+        <input type="text" id="sum_gader" placeholder="100" oninput="OnInput (event)">
     </div>
     <div class="form-group font_J row col-md-4">
         <label for="sum_title_num">题目数量:</label>
-        <input type="text"  id="sum_title_num" placeholder="100">
+        <input type="text" id="sum_title_num" placeholder="100" oninput="OnInput (event)">
     </div>
 </div>
 <br><br>
 <div class="form2style">
     <div class="form-group row col-md-3">
         <label for="choose_number">选择题数量：</label>
-        <input type="text" id="choose_number" placeholder="15">
+        <input type="text" id="choose_number" placeholder="15" oninput="OnInput (event)">
     </div>
     <div class="form-group row col-md-3">
         <label for="choose_gader">选择题总分：</label>
-        <input type="text" id="choose_gader" placeholder="35">
+        <input type="text" id="choose_gader" placeholder="35" oninput="OnInput (event)">
     </div>
     <div class="form-group row col-md-2">
         <label for="choose_rander_num">随机抽取数量：</label>
-        <input type="text" id="choose_rander_num" placeholder="15">
+        <input type="text" id="choose_rander_num" placeholder="15" oninput="OnInput (event)">
     </div>
     <div class="form-group row col-md-2" style="margin-left: 50px">
         <label for="choose_title_sd">手动设置数量：</label>
-        <input type="text" id="choose_title_sd" placeholder="0">
+        <input type="text" id="choose_title_sd" placeholder="0" oninput="OnInput (event)">
     </div>
     <div class="form-group row col-md-2" style="margin-top: 25px;margin-left: 50px">
-        <a class="btn btn-default" href="html/testpaper2.html" role="button">手动设置</a>
+        <a class="btn btn-default" href="/html/testpaper2.html" role="button">手动设置</a>
     </div>
 </div>
 <br><br><br><br><br>
 <div class="form2style">
     <div class="form-group row col-md-3">
         <label for="completion_num">判断题数量：</label>
-        <input type="text" id="completion_num" placeholder="15">
+        <input type="text" id="completion_num" placeholder="15" oninput="OnInput (event)">
     </div>
     <div class="form-group row col-md-3">
         <label for="completion_gader">判断题总分：</label>
-        <input type="text" id="completion_gader" placeholder="35">
+        <input type="text" id="completion_gader" placeholder="35" oninput="OnInput (event)">
     </div>
     <div class="form-group row col-md-2">
         <label for="completion_rander_num">随机抽取数量：</label>
-        <input type="text" id="completion_rander_num" placeholder="10">
+        <input type="text" id="completion_rander_num" placeholder="10" oninput="OnInput (event)">
     </div>
     <div class="form-group row col-md-2" style="margin-left: 50px">
         <label for="completion_title2_sd">手动设置数量：</label>
-        <input type="text" id="completion_title2_sd" placeholder="0">
+        <input type="text" id="completion_title2_sd" placeholder="0" oninput="OnInput (event)">
     </div>
     <div class="form-group row col-md-2" style="margin-top: 25px;margin-left: 50px">
-        <a class="btn btn-default" href="html/testpaper2.html" role="button">手动设置</a>
+        <a class="btn btn-default" href="/html/testpaper2.html" role="button">手动设置</a>
     </div>
 </div>
 <br><br><br><br><br>
 <div class="form2style">
     <div class="form-group row col-md-3">
         <label for="recognized_num">判断题数量：</label>
-        <input type="text" id="recognized_num" placeholder="15">
+        <input type="text" id="recognized_num" placeholder="15" oninput="OnInput (event)">
     </div>
     <div class="form-group row col-md-3">
         <label for="recognized_gader">判断题总分：</label>
-        <input type="text" id="recognized_gader" placeholder="35">
+        <input type="text" id="recognized_gader" placeholder="35" oninput="OnInput (event)">
     </div>
     <div class="form-group row col-md-2">
         <label for="recongnized_rander_num">随机抽取数量：</label>
-        <input type="text" id="recongnized_rander_num" placeholder="10">
+        <input type="text" id="recongnized_rander_num" placeholder="10" oninput="OnInput (event)">
     </div>
     <div class="form-group row col-md-2" style="margin-left: 50px">
         <label for="recongnized_title3_sd">手动设置数量：</label>
-        <input type="text" id="recongnized_title3_sd" placeholder>
+        <input type="text" id="recongnized_title3_sd"   oninput="OnInput (event)">
     </div>
     <div class="form-group row col-md-2" style="margin-top: 25px;margin-left: 50px">
         <!--            <input class="btn btn-default" type="button" value="" href="testpaper2.html">-->
-        <a class="btn btn-default" href="html/testpaper2.html" role="button">手动设置</a>
+        <a class="btn btn-default" href="/html/testpaper2.html" role="button">手动设置</a>
     </div>
 </div>
 <br><br><br><br><br>
 
 
-<div class="submit_style1 submit_style2"><input class="btn btn-default" type="submit" value="设置" onclick="addtestpaper()"></div>
+<div class="submit_style1 submit_style2"><input class="btn btn-default" type="submit" value="设置"
+                                                onclick="addtestpaper()"></div>
 </body>
 </html>

@@ -78,7 +78,7 @@ public class TeacherAppointTitle {
         TeacherAppointTitleEntity teacherAppointTitleEntity = new TeacherAppointTitleEntity();
         teacherAppointTitleEntity.setGrade(grade);
         teacherAppointTitleEntity.setSubject(subject);
-        List<TeacherAppointTitleEntity> list = teacherAppoinTitleService.findall(teacherAppointTitleEntity);
+        List<TeacherAppointTitleEntity> list = teacherAppoinTitleService.findAll(teacherAppointTitleEntity);
         JSONObject json = new JSONObject();
         json.put("result", list);
         for (TeacherAppointTitleEntity appointTitleEntity : list) {
@@ -94,7 +94,7 @@ public class TeacherAppointTitle {
         request.setCharacterEncoding("UTF-8");
         String r_id = request.getParameter("id");
         int id = r_id !=null && !r_id.equals("") ? Integer.parseInt(r_id):0;
-        int result = teacherAppoinTitleService.delete(id);
+        int result = teacherAppoinTitleService.del(id);
         String mesage = result == 1 ? "删除成功" : "删除失败";
         JSONObject json = new JSONObject();
         json.put("result",mesage);
@@ -132,7 +132,7 @@ public class TeacherAppointTitle {
         response.setCharacterEncoding("UTF-8");
         String r_id = request.getParameter("id");
         int id = r_id !=null && !r_id.equals("") ? Integer.parseInt(r_id) : 0;
-        TeacherAppointTitleEntity list = teacherAppoinTitleService.getbyid(id);
+        TeacherAppointTitleEntity list = teacherAppoinTitleService.getById(id);
         JSONObject json = new JSONObject();
         json.put("result",list);
         response.getWriter().write(json.toString());

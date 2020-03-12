@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cn.wanxi.dao.TeacherAppointTitleDao">
 <!--TestPaperDao-->
-<insert id="addTestTitle" parameterType="com.cn.wanxi.entity.TeacherAppointTitleEntity">
+<insert id="add" parameterType="com.cn.wanxi.entity.TeacherAppointTitleEntity">
         insert into wx_tab_teacher_appoint_title(subject,test_title,test_answer,title_model,grade) values (#{subject},#{test_title},#{test_answer},#{title_model},#{grade})
     </insert>
-<delete id="deleteTestTitle" parameterType="java.lang.Integer">
+<delete id="del" parameterType="java.lang.Integer">
         delete from wx_tab_teacher_appoint_title where id=#{id}
     </delete>
 <select id="findAll" resultType="com.cn.wanxi.entity.TeacherAppointTitleEntity" parameterType="com.cn.wanxi.entity.TeacherAppointTitleEntity">
     select * from wx_tab_teacher_appoint_title where subject=#{subject} and grade=#{grade}
 </select>
-<update id="updateTestTitle"  parameterType="com.cn.wanxi.entity.TeacherAppointTitleEntity">
+<update id="update"  parameterType="com.cn.wanxi.entity.TeacherAppointTitleEntity">
     update wx_tab_teacher_appoint_title set subject=#{subject},test_title=#{test_title},test_answer=#{test_answer},title_model=#{title_model}, grade=#{grade} where id=#{id}
 </update>
     <select id="getById" resultType="com.cn.wanxi.entity.TeacherAppointTitleEntity" parameterType="java.lang.Integer">

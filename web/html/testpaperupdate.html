@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--@Author: lld-->
+<head>
+    <meta charset="UTF-8">
+    <title>试卷修改</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/testpaper.js"></script>
+    <link rel="stylesheet" href="/css/testpaper.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<script>
+    $(function () {
+        let id = localStorage.getItem("id");
+        getbyid(id);
+    })
+    function getbyid(id) {
+        $.get('/wanxi/getbyid',{id:id},function (data) {
+            console.log(data);
+            console.log(data.result)
+            $("#grade").val(data.result.grade),
+            $("#test_name").val(data.result.test_name),
+                $("#subject").val(data.result.subject),
+                $("#sum_title_num").val(data.result.sum_title_num)
+                $("#sum_gader").val(data.result.sum_gader),
+                $("#choose_gader").val(data.result.choose_gader),
+                $("#completion_gader").val(data.result.completion_gader),
+                    $("#recognized_gader").val(data.result.recognized_gader)
+/*                    $("#completion_rander_num").val(data.result.completion_rander_num),
+                    $("#completion_title2_sd").val(data.result.completion_title_sd),
+                    $("#recongnized_rander_num").val(data.result.recongnized_rander_num),
+                $("#recongnized_title3_sd").val(data.result.recongnized_title_sd)
+            $("#choose_rander_num").val(data.result.choose_rander_num),
+                $("#choose_title_sd").val(data.result.choose_title_sd),
+                var sum = data.result.choose_number + data.result.completion_num + data.result.recognized_num;
+            $("#sum_title_num").attr("value").append(sum);*/
+        },'json')
+    }
+    function update() {
+        console.log($("#completion_num").val());
+        console.log($("#recognized_num").val());
+        console.log($("#recognized_gader").val());
+        $.get('/wanxi/updatetestpaper',{
+            test_name: $("#test_name").val(),
+            grade: $("#grade").val(),
+            subject: $("#subject").val(),
+            sum_gader: $("#sum_gader").val(),
+            sum_title_num: $("#sum_title_num").val(),
+            choose_gader: $("#choose_gader").val(),
+/*            choose_rander_num: $("#choose_rander_num").val(),
+            choose_title_sd: $("#choose_title_sd").val(),*/
+            completion_gader: $("#completion_gader").val(),
+            recognized_gader: $("#recognized_gader").val(),
+            paper_rollOfPeople:$("#paper_rollOfPeople").val(),
+            id:localStorage.getItem("id")
+/*            recognized_rander_num: $("#recongnized_rander_num").val(),
+            recongnized_title_sd: $("#recongnized_title3_sd").val()*/
+        },function (data) {
+            console.log(data);
+            alert(data.result);
+        },'json');
+    }
+</script>
+<body class="container back">
+<div style="width:100px;margin: 0 auto;">
+    <button type="button" class="btn btn-primary title">试卷管理</button>
+</div>
+<div>
+    <ul class="nav nav-pills">
+        <li role="presentation"><a href="#">首页</a></li>
+        <li role="presentation"><a href="/html/testpaper.html">题库随机抽取</a></li>
+        <li role="presentation"><a href="/html/findalltestpaper.html">试卷查询</a></li>
+        <li role="presentation" class="active"><a href="#">试卷修改</a></li>
+        <li role="presentation"><a href="/html/testpaper2.html">老师手动出题</a></li>
+        <!--<li role="presentation"><a href="/html/teacherfindAll.html">查询试题</a></li>-->
+    </ul>
+</div>
+<div><br><br><br></div>
+<div class="test_id">
+    <div class="form-group row col-md-3">
+        <label for="test_name">本次考试ID：</label>
+        <input type="text" id="test_name" placeholder="期末考试">
+    </div>
+
+    <div class="form-group row col-md-3">
+        <label for="test_start_time">本次考试时间：</label>
+        <input type="text" id="test_start_time" placeholder="2020-3-6 9:30:00">
+    </div>
+
+    <div class="form-group row col-md-3">
+        <label for="test_time">答题时间：</label>
+        <input type="text" id="test_time" placeholder="150">
+    </div>
+    <div class="form-group row col-md-3">
+        <label for="paper_rollOfPeople">出卷人：</label>
+        <input type="text" id="paper_rollOfPeople" placeholder="张三" oninput="OnInput (event)">
+    </div>
+</div>
+<div><br><br><br><br></div>
+<!--
+        <form class="form-inline form1style">
+-->
+<div>
+    <div class="form-group font_J row col-md-2">
+        <label for="subject">科目:</label>
+        <select id="subject">
+            <option>数学</option>
+            <option>语文</option>
+            <option>英语</option>
+            <option>历史</option>
+            <option>化学</option>
+        </select>
+    </div>
+    <div class="form-group font_J row col-md-2">
+        <label for="grade">年级:</label>
+        <select id="grade">
+            <option>2017</option>
+            <option>2018</option>
+            <option>2019</option>
+            <option>2020</option>
+        </select>
+    </div>
+    <div class="form-group font_J row col-md-4">
+        <label for="sum_gader">总分:</label>
+        <input type="text" id="sum_gader" placeholder="100">
+    </div>
+    <div class="form-group font_J row col-md-4">
+        <label for="sum_title_num">题目数量:</label>
+        <input type="text"  id="sum_title_num" placeholder="100" >
+    </div>
+</div>
+<br><br>
+<div class="form2style">
+    <div class="form-group row col-md-3">
+        <label for="choose_number">选择题数量：</label>
+        <input type="text" id="choose_number" placeholder="15">
+    </div>
+    <div class="form-group row col-md-3">
+        <label for="choose_gader">选择题总分：</label>
+        <input type="text" id="choose_gader" placeholder="35">
+    </div>
+    <!--<div class="form-group row col-md-2">
+        <label for="choose_rander_num">随机抽取数量：</label>
+        <input type="text" id="choose_rander_num" placeholder="15">
+    </div>
+    <div class="form-group row col-md-2" style="margin-left: 50px">
+        <label for="choose_title_sd">手动设置数量：</label>
+        <input type="text" id="choose_title_sd" placeholder="0">
+    </div>
+    <div class="form-group row col-md-2" style="margin-top: 25px;margin-left: 50px">
+        <a class="btn btn-default" href="html/testpaper2.html" role="button">手动设置</a>
+    </div>-->
+</div>
+<br><br><br><br><br>
+<div class="form2style">
+    <div class="form-group row col-md-3">
+        <label for="completion_num">判断题数量：</label>
+        <input type="text" id="completion_num" placeholder="15">
+    </div>
+    <div class="form-group row col-md-3">
+        <label for="completion_gader">判断题总分：</label>
+        <input type="text" id="completion_gader" placeholder="35">
+    </div>
+    <!--<div class="form-group row col-md-2">
+        <label for="completion_rander_num">随机抽取数量：</label>
+        <input type="text" id="completion_rander_num" placeholder="10">
+    </div>
+    <div class="form-group row col-md-2" style="margin-left: 50px">
+        <label for="completion_title2_sd">手动设置数量：</label>
+        <input type="text" id="completion_title2_sd" placeholder="0">
+    </div>
+    <div class="form-group row col-md-2" style="margin-top: 25px;margin-left: 50px">
+        <a class="btn btn-default" href="html/testpaper2.html" role="button">手动设置</a>
+    </div>-->
+</div>
+<br><br><br><br><br>
+<div class="form2style">
+    <div class="form-group row col-md-3">
+        <label for="recognized_num">判断题数量：</label>
+        <input type="text" id="recognized_num" placeholder="15">
+    </div>
+    <div class="form-group row col-md-3">
+        <label for="recognized_gader">判断题总分：</label>
+        <input type="text" id="recognized_gader" placeholder="35">
+    </div>
+    <!--<div class="form-group row col-md-2">
+        <label for="recongnized_rander_num">随机抽取数量：</label>
+        <input type="text" id="recongnized_rander_num" placeholder="10">
+    </div>
+    <div class="form-group row col-md-2" style="margin-left: 50px">
+        <label for="recongnized_title3_sd">手动设置数量：</label>
+        <input type="text" id="recongnized_title3_sd" placeholder>
+    </div>
+    <div class="form-group row col-md-2" style="margin-top: 25px;margin-left: 50px">
+        &lt;!&ndash;            <input class="btn btn-default" type="button" value="" href="testpaper2.html">&ndash;&gt;
+        <a class="btn btn-default" href="html/testpaper2.html" role="button">手动设置</a>
+    </div>-->
+</div>
+<br><br><br><br><br>
+
+
+<div class="submit_style1 submit_style2"><input class="btn btn-default" type="submit" value="修改" onclick="update()"></div>
+</body>
+</html>

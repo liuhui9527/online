@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--@Author: lld-->
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,29 +21,95 @@
         console.log($("#titlemodel").val());
         console.log($("#title").val());
         console.log($("#daan").val());
-       /* $.ajax({
-            url:'/wanxi/teacherappoint',
-            date:{
-                subject:$("#subject").val(),
-                grade:$("#grade").val(),
-                titlemodel:$("#titlemodel").val(),
-                title:$("#title").val(),
-                daan:$("#daan").val()
-            },
-            type:'get',
-            dateType:'json',
-            success:function (data) {
-                console.log(data);
-            }
-        });*/
-        $.get("/wanxi/teacherappoint",{subject:$("#subject").val(),
-            grade:$("#grade").val(),
-            titlemodel:$("#titlemodel").val(),
-            title:$("#title").val(),
-            daan:$("#daan").val()},function (data) {
+        /* $.ajax({
+             url:'/wanxi/teacherappoint',
+             date:{
+                 subject:$("#subject").val(),
+                 grade:$("#grade").val(),
+                 titlemodel:$("#titlemodel").val(),
+                 title:$("#title").val(),
+                 daan:$("#daan").val()
+             },
+             type:'get',
+             dateType:'json',
+             success:function (data) {
+                 console.log(data);
+             }
+         });*/
+        $.get("/wanxi/findTitle", {
+            question_type: $("#question_type").val(),
+            /*grade: $("#grade").val(),*/
+            question_direction: $("#question_direction").val(),
+            /*            title: $("#title").val(),
+                        daan: $("#daan").val()*/
+        }, function (data) {
             console.log(data);
-            alert(data.result)
-        },"json");
+            // alert(data.result);
+            var html = '';
+            for (let i = 0; i < data.result.length; i++) {
+                if ((i + 2) % 2 == 0) {
+                    html += '<tr class="active">\n' +
+                        '                        <td><input type="checkbox" class="select" name="titleId" value="' + data.result[i].question_id + '"></td>\n' +
+                        '                        <td>' + i + '</td>\n' +
+                        '                        <td>' + data.result[i].question_subject + '</td>\n' +
+                        '                        <td>' + data.result[i].question_type + '</td>\n' +
+                        '                        <td>' + data.result[i].question_option + '</td>\n' +
+                        '                        <td>' + data.result[i].question_answer + '</td>\n' +
+                        '                        <td>' + data.result[i].question_level + '</td>\n' +
+                        '                        <td>' + data.result[i].question_direction + '</td></tr>';
+                } else {
+                    html += '<tr class="success">\n' +
+                        '                    <td><input type="checkbox" class="select" name="titleId" value="' + data.result[i].question_id + '"></td>\n' +
+                        '                    <td>' + i + '</td>\n' +
+                        '                    <td>' + data.result[i].question_subject + '</td>\n' +
+                        '                    <td>' + data.result[i].question_type + '</td></td>\n' +
+                        '                    <td>' + data.result[i].question_option + '</t</td>\n' +
+                        '                    <td>' + data.result[i].question_answer + '</t</td>\n' +
+                        '                    <td>' + data.result[i].question_level + '</td</td>\n' +
+                        '                    <td>' + data.result[i].question_direction + '</td></tr>';
+                }
+            }
+            $("#findalltitle").html(html);
+        }, "json");
+    }
+
+    function selectall(obj) {
+        $(".select").prop("checked", obj.checked)
+    }
+
+    window.onload = function () {
+        //给添加按钮添加绑定事件
+        document.getElementById("addtitleid").onclick = function () {
+            //标段提交
+            alert("确定，需要添加？");
+            document.getElementById("checkboxform").submit();
+            var length = $("input[type='checkbox']:checked").length;
+            var type = $("#question_type").val();
+            modeltype(type,length);
+            alert("添加成功，即将跳转");
+            tiaozhuan();
+        }
+    }
+
+    /*function getdata() {
+        $.get('/wanxi/return_data', {}, function (data) {
+            localStorage.setItem("data", data.data_length);
+            alert(data.mesage);
+        }, 'json');
+    }*/
+
+    function tiaozhuan() {
+        window.location.href = "/html/testpaper.html";
+    }
+    function modeltype(model,len) {
+        if (model == '单选题'){
+            localStorage.setItem("choose_title_sd",len);
+        }else if(model == '填空题'){
+            localStorage.setItem("completion_title2_sd",len);
+        }
+        else if(model == '判断题'){
+            localStorage.setItem("recongnized_title3_sd",len);
+        }
     }
 </script>
 <body class="back">
@@ -54,16 +121,18 @@
         <ul class="nav nav-pills">
             <li role="presentation"><a href="#">首页</a></li>
             <li role="presentation"><a href="/html/testpaper.html">题库随机抽取</a></li>
+            <li role="presentation"><a href="/html/findalltestpaper.html">试卷查询</a></li>
+            <li role="presentation"><a href="/html/testpaperupdate.html">试卷修改</a></li>
             <li role="presentation" class="active"><a href="#">老师手动出题</a></li>
-            <li role="presentation"><a href="/html/teacherfindAll.html">查询试题</a></li>
+            <!--<li role="presentation"><a href="/html/teacherfindAll.html">查询试题</a></li>-->
 
         </ul>
     </div>
     <div><br><br><br></div>
     <div>
         <div class="font_J row col-md-4"><!--form-group-->
-            <label for="subject">科目:</label>
-            <select id="subject">
+            <label for="question_direction">科目:</label>
+            <select id="question_direction">
                 <option>数学</option>
                 <option>语文</option>
                 <option>英语</option>
@@ -71,52 +140,91 @@
                 <option>化学</option>
             </select>
         </div>
+        <!-- <div class=" font_J row col-md-4">
+             <label for="grade">年级:</label>
+             <select id="grade">
+                 <option>2017</option>
+                 <option>2018</option>
+                 <option>2019</option>
+                 <option>2020</option>
+             </select>
+         </div>-->
         <div class=" font_J row col-md-4">
-            <label for="grade">年级:</label>
-            <select id="grade">
-                <option>2017</option>
-                <option>2018</option>
-                <option>2019</option>
-                <option>2020</option>
-            </select>
-        </div>
-        <div class=" font_J row col-md-4">
-            <label for="titlemodel">题型:</label>
-            <select id="titlemodel">
+            <label for="question_type">题型:</label>
+            <select id="question_type">
                 <option>选择题</option>
                 <option>判断题</option>
                 <option>填空题</option>
+                <option>单选题</option>
             </select>
         </div>
     </div>
     <div>
         <div class=" form1style ">
-            <div style="margin-top: 50px">
-                <div class="input-group input-group-lg col-md-12">
-                    <span class="input-group-addon">题目</span>
-                    <input type="text" class="form-control" id="title" placeholder="请输入题目" aria-describedby="sizing-addon1">
-                </div>
-                <div class="input-group input-group-lg col-md-12">
-                    <span class="input-group-addon">答案</span>
-                    <input type="text" class="form-control" id="daan" placeholder="请输入题目答案" aria-describedby="sizing-addon1">
-                </div>
-            </div>
+            <!--            <div style="margin-top: 50px">
+                            <div class="input-group input-group-lg col-md-12">
+                                <span class="input-group-addon">题目</span>
+                                <input type="text" class="form-control" id="title" placeholder="请输入题目" aria-describedby="sizing-addon1">
+                            </div>
+                            <div class="input-group input-group-lg col-md-12">
+                                <span class="input-group-addon">答案</span>
+                                <input type="text" class="form-control" id="daan" placeholder="请输入题目答案" aria-describedby="sizing-addon1">
+                            </div>
+                        </div>
 
-            <div class="checkbox" style="margin-top: 50px">
-                <label>
-                    <input type="checkbox"> 该题是否添加到本次考试中
-                </label>
-            </div>
-            <br>
-            <div style="width: 100px;margin:0 auto;" >
-                <div class="submit_style1 submit_style2"><input class="btn btn-default" type="submit" value="提交" onclick="addteachertitle()"></div>
+                        <div class="checkbox" style="margin-top: 50px">
+                            <label>
+                                <input type="checkbox"> 该题是否添加到本次考试中
+                            </label>
+                        </div>
+                        <br>-->
+            <div>
+                <form action="/wanxi/tianjia" method="post" id="checkboxform">
+                    <table class="table">
+                        <caption>请在一下题库中选择你要添加的试题</caption>
+                        <thead>
+                        <tr>
+                            <th>添加<input type="checkbox" onclick="selectall(this)"></th>
+                            <th>序号</th>
+                            <th>题目</th>
+                            <th>考题类型</th>
+                            <th>选择题选项</th>
+                            <th>答案</th>
+                            <th>难易程度</th>
+                            <th>科目</th>
+                        </tr>
+                        </thead>
+                        <tbody id="findalltitle">
+                        <!--<tr class="active" >
+                            <td><input type="checkbox" class="select" name="uid" value="${data.result[i].id}"></td>
+                            <td>产品1</td>
+                            <td>23/11/2013</td>
+                            <td>待发货</td>
+                            <td>待发货</td>
+                            <td>待发货</td>
+                            <td>待发货</td>
+                            <td>待发货</td></tr>
+                        <tr class="success">
+                            <td><input type="checkbox" class="select"></td>
+                            <td>产品2</td>
+                            <td>10/11/2013</td>
+                            <td>发货中</td>
+                            <td>发货中</td>
+                            <td>发货中</td>
+                            <td>发货中</td>
+                            <td>发货中</td></tr>-->
+                        </tbody>
+                    </table>
+                </form>
 
-<!--
-                <button type="submit" class="btn btn-default row col-md-3" onclick="addteachertitle()">提交</button>
--->
-<!--
-                <button type="button" class="btn btn-default row col-md-3"style="margin-left: 10px"><a href="teacherfindAll.html">查询试题</a></button>
--->
+            </div>
+            <div style="margin-left: 400px">
+                <div class="submit_style1 submit_style2 row col-md-4"><input class="btn btn-default" type="submit"
+                                                                             value="查询"
+                                                                             onclick="addteachertitle()"></div>
+                <button type="button" class="btn btn-primary row col-md-2" href="javascript:void(0);" id="addtitleid">
+                    添加选中
+                </button>
             </div>
         </div>
     </div>
